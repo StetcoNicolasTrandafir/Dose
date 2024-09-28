@@ -17,34 +17,32 @@ ERRORS.create({
 });
 
 const addCoffe = async (req, res, next) => {
-
-  const variety = req.body["variety"];
-  const name = req.body["name"];
-  const productor = req.body["productor"];
-  const origin = req.body["origin"];
-  const region = req.body["region"];
-  const altitude = req.body["altitude"];
-  const process= req.body["process"];
-  const roastingDay = req.body["roastingDay"];
-  const roastingDegree= req.body["roastingDegree"];
-  const roaster = req.body["roaster"];
-  const harvestDate= req.body["harvestDate"];
-
-  
-  if(name==null)
-    error(req, res, new ERRORS.BAD_REQUEST({}));
-
-
   try {
-    const risultato = await coffee_typeService.addCoffe(req, res, 
-        variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
-    console.log("risultato", risultato);
-    res.send(risultato);
-    next();
-  } catch (e) {
-    console.log(e.message)
-    res.sendStatus(500) && next(error)
-  }
+    const variety = req.body["variety"];
+    const name = req.body["name"];
+    const productor = req.body["productor"];
+    const origin = req.body["origin"];
+    const region = req.body["region"];
+    const altitude = req.body["altitude"];
+    const process= req.body["process"];
+    const roastingDay = req.body["roastingDay"];
+    const roastingDegree= req.body["roastingDegree"];
+    const roaster = req.body["roaster"];
+    const harvestDate= req.body["harvestDate"];
+    
+
+    
+    if(name==null)
+      return error(req, res, new ERRORS.BAD_REQUEST({}));
+    
+      const risultato = await coffee_typeService.addCoffe(req, res, 
+          variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
+      res.send(risultato);
+      // next();
+    } catch (e) {
+      console.log(e.message)
+      res.sendStatus(500) && next(error)
+    }
 }
 
 const prova= async(req, res, next)=> {
@@ -53,15 +51,16 @@ const prova= async(req, res, next)=> {
 }
 
 const getById = async (req, res, next) => {
-  const id = req.body["id"];
-  
   
   try {
-    const risultato = await coffee_typeService.getCoffeById(id, req, res);
-    console.log("risultato", risultato);
-    res.send(risultato);
+    const id = req.query["id"];
 
-    next();
+    if(!id)
+        error(req, res, new ERRORS.BAD_REQUEST({}));
+  
+    const risultato = await coffee_typeService.getCoffeById(id, req, res);
+    res.send(risultato);
+    // next();
   } catch (e) {
     console.log(e.message)
     res.sendStatus(500) && next(error)

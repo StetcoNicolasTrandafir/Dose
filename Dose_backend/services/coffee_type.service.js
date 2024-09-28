@@ -17,7 +17,7 @@ ERRORS.create({
 
 
 const getCoffeById = async (id, req, res) => {
-    let queryString = "SELECT * FROM  coffee_types WHERE id=?";
+    let queryString = "SELECT * FROM  coffee_type WHERE id=?";
     const result = await db.execute(queryString, [id], req, res);
     return ({
         data: result,
@@ -25,7 +25,7 @@ const getCoffeById = async (id, req, res) => {
 }
 
 const addCoffe = async (req, res,variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate) => {
-    let queryString = "INSERT INTO coffee_types(name, productor, origin, region, altitude, variety, process, roasting_day, roasting_degree, roaster, harvest_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    let queryString = "INSERT INTO coffee_type(name, productor, origin, region, altitude, variety, process, roasting_day, roasting_degree, roaster, harvest_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     const result = await db.execute(queryString, [name, productor, origin, region, altitude, variety, process, roastingDay, roastingDegree, roaster, harvestDate], req, res);
     return ({
         data: result,
