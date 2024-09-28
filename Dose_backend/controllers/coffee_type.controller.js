@@ -3,27 +3,61 @@ const {
 } = require("../services")
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const privateKey = fs.readFileSync("keys/private.key", "utf8");
+// const privateKey = fs.readFileSync("keys/private.key", "utf8");
 const ERRORS = require('errors');
 const {
   crypto
 } = require("../crypto");
+const { nextTick } = require("process");
+
+ERRORS.create({
+  name: 'BAD_REQUEST',
+  code: 400,
+  message: 'Bad Request: some parameters are missing or in bad format'
+});
+
+const addCoffe = async (req, res, next) => {
+
+  const variety = req.body["variety"];
+  const name = req.body["name"];
+  const productor = req.body["productor"];
+  const origin = req.body["origin"];
+  const region = req.body["region"];
+  const altitude = req.body["altitude"];
+  const process= req.body["process"];
+  const roastingDay = req.body["roastingDay"];
+  const roastingDegree= req.body["roastingDegree"];
+  const roaster = req.body["roaster"];
+  const harvestDate= req.body["harvestDate"];
+
+  
+  if(name==null)
+    error(req, res, new ERRORS.BAD_REQUEST({}));
 
 
+  try {
+    const risultato = await coffee_typeService.addCoffe(req, res, 
+        variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
+    console.log("risultato", risultato);
+    res.send(risultato);
+    next();
+  } catch (e) {
+    console.log(e.message)
+    res.sendStatus(500) && next(error)
+  }
+}
 
-
-const prova = async (req, res, next) => {
-  res.send({
-    data: "funanzia"
-  })
+const prova= async(req, res, next)=> {
+  const ris= await coffee_typeService.prova(req, res)
+  res.send(ris)
 }
 
 const getById = async (req, res, next) => {
-
   const id = req.body["id"];
   
+  
   try {
-    const risultato = await usersService.login(id, req, res);
+    const risultato = await coffee_typeService.getCoffeById(id, req, res);
     console.log("risultato", risultato);
     res.send(risultato);
 
@@ -35,103 +69,12 @@ const getById = async (req, res, next) => {
 }
 
 
-
-const getUser = async (req, res, next) => {
-
-  let ctrlToken = await controllaToken(req, res);
-
-  let id = ctrlToken.payload._id;
-  try {
-    const risultato = await usersService.getUser(id, req, res);
-    res.send(risultato);
-
-    next();
-  } catch (e) {
-    console.log("test");
-    console.log(e.message)
-    res.sendStatus(500) && next(error)
-  }
-}
-
-
-//TODO da mettere in un modulo a parte
-const controlloToken = async (req, res, next) => {
-  let ctrlToken = await controllaToken(req, res);
-  //console.log(ctrlToken);
-  if (ctrlToken.allow && !ctrlToken.payload.err_iat) {
-    let token = createToken({
-      "_id": ctrlToken.payload._id,
-      "user": ctrlToken.payload.user
-    });
-    res.send({
-      "data": "TOKEN OK",
-      token: token
-    });
-  } else {
-    error(req, res, new ERRORS.TOKEN_DOESNT_EXIST({}));
-  }
-}
-
-
-async function controllaToken(req, res) {
-  let ctrlToken = {
-    allow: false,
-    payload: {}
-  };
-
-  // lettura token
-  if (req.headers["token"] == undefined) {
-    error(req, res, new ERRORS.TOKEN_DOESNT_EXIST({}));
-  } else {
-    let token = req.headers["token"].split(' ')[1];
-    
-    //console.log(token + " - " + typeof (token));
-
-    if (token != "undefined" && token != "null") {
-
-      let result;
-      try {
-        result = await jwt.verify(token, privateKey);
-      } catch (ex) {
-        console.log(ex);
-      }
-
-      ctrlToken.allow = true;
-      if (result) {
-        //ctrlToken.allow=true;
-        ctrlToken.payload = result;
-      } else {
-        ctrlToken.payload = {
-          "err_iat": true,
-          "message": "Token scaduto"
-        };
-        error(req, res, new ERRORS.TOKEN_EXPIRED({}));
-      }
-    }
-  }
-  return ctrlToken;
-}
-
-function createToken(obj) {
-  let token = jwt.sign({
-      '_id': obj._id,
-      'user': obj.user,
-      'iat': Math.floor(Date.now() / 1000),
-      'exp': Math.floor(Date.now() / 1000 + usersService.TIMEOUT)
-    },
-    privateKey
-  );
-  return token;
-}
-
 function error(req, res, err) {
   res.status(err.code).send(err.message);
 }
 
 
 module.exports = {
-  login,
-  getUser,
-  controlloToken,
-  prova,
+  addCoffe,
+  getById, prova
 }

@@ -10,4 +10,5 @@ routerCoffe_type.use('/coffee_type', coffee_typeRoute)
 
 module.exports = [
     routerUser,
+    routerCoffe_type
 ];

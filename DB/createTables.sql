@@ -34,7 +34,7 @@ CREATE TABLE preparation (
   water_temperature INT,
   granularity VARCHAR(50),
   notes TEXT,
-  versate INT,  -- Chiave esterna che punta a "brews"
+  --versate INT,  -- Chiave esterna che punta a "brews"
   coffee_type_id INT,  -- Chiave esterna che punta a "coffee_type"
   owner_id INT,  -- Chiave esterna che punta a "users"
   creation_date DATE DEFAULT GETDATE(),

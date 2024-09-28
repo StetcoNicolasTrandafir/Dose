@@ -6,7 +6,7 @@ const cors = require('cors');
 const routes = require('./routes');
 // const jwt = require("jsonwebtoken");
 
-server.listen(3000);
+// server.listen(3000);
 const port = 1337;
 
 app.use(bodyParser.json());

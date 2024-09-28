@@ -3,7 +3,7 @@ const {
 } = require("../services")
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const privateKey = fs.readFileSync("keys/private.key", "utf8");
+// const privateKey = fs.readFileSync("keys/private.key", "utf8");
 const ERRORS = require('errors');
 const {
   crypto
@@ -85,56 +85,56 @@ const controlloToken = async (req, res, next) => {
 }
 
 
-async function controllaToken(req, res) {
-  let ctrlToken = {
-    allow: false,
-    payload: {}
-  };
+// async function controllaToken(req, res) {
+//   let ctrlToken = {
+//     allow: false,
+//     payload: {}
+//   };
 
-  // lettura token
-  if (req.headers["token"] == undefined) {
-    error(req, res, new ERRORS.TOKEN_DOESNT_EXIST({}));
-  } else {
-    let token = req.headers["token"].split(' ')[1];
+//   // lettura token
+//   if (req.headers["token"] == undefined) {
+//     error(req, res, new ERRORS.TOKEN_DOESNT_EXIST({}));
+//   } else {
+//     let token = req.headers["token"].split(' ')[1];
     
-    //console.log(token + " - " + typeof (token));
+//     //console.log(token + " - " + typeof (token));
 
-    if (token != "undefined" && token != "null") {
+//     if (token != "undefined" && token != "null") {
 
-      let result;
-      try {
-        result = await jwt.verify(token, privateKey);
-      } catch (ex) {
-        console.log(ex);
-      }
+//       let result;
+//       try {
+//         result = await jwt.verify(token, privateKey);
+//       } catch (ex) {
+//         console.log(ex);
+//       }
 
-      ctrlToken.allow = true;
-      if (result) {
-        //ctrlToken.allow=true;
-        ctrlToken.payload = result;
-      } else {
-        ctrlToken.payload = {
-          "err_iat": true,
-          "message": "Token scaduto"
-        };
-        error(req, res, new ERRORS.TOKEN_EXPIRED({}));
-      }
-    }
-  }
-  return ctrlToken;
-}
+//       ctrlToken.allow = true;
+//       if (result) {
+//         //ctrlToken.allow=true;
+//         ctrlToken.payload = result;
+//       } else {
+//         ctrlToken.payload = {
+//           "err_iat": true,
+//           "message": "Token scaduto"
+//         };
+//         error(req, res, new ERRORS.TOKEN_EXPIRED({}));
+//       }
+//     }
+//   }
+//   return ctrlToken;
+// }
 
-function createToken(obj) {
-  let token = jwt.sign({
-      '_id': obj._id,
-      'user': obj.user,
-      'iat': Math.floor(Date.now() / 1000),
-      'exp': Math.floor(Date.now() / 1000 + usersService.TIMEOUT)
-    },
-    privateKey
-  );
-  return token;
-}
+// function createToken(obj) {
+//   let token = jwt.sign({
+//       '_id': obj._id,
+//       'user': obj.user,
+//       'iat': Math.floor(Date.now() / 1000),
+//       'exp': Math.floor(Date.now() / 1000 + usersService.TIMEOUT)
+//     },
+//     privateKey
+//   );
+//   return token;
+// }
 
 function error(req, res, err) {
   res.status(err.code).send(err.message);

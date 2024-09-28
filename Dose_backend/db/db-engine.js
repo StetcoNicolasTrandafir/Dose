@@ -15,12 +15,11 @@ ERRORS.create({
   defaultMessage: 'An error occured when connecting to database'
 });
 
-//dati per creare la connessione al DB (sono scritti una volta sola così nel caso si debba cambiare non si diventa pazzi)
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'social'
+  database: 'Dose'
 });
 
 

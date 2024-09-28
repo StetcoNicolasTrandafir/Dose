@@ -66,17 +66,17 @@ const login = async (mail, password, req, res) => {
 
 
 
-function createToken(obj) {
-    let token = jwt.sign({
-            '_id': obj._id,
-            'user': obj.user,
-            'iat': Math.floor(Date.now() / 1000),
-            'exp': Math.floor(Date.now() / 1000 + TIMEOUT)
-        },
-        privateKey
-    );
-    return token;
-}
+// function createToken(obj) {
+//     let token = jwt.sign({
+//             '_id': obj._id,
+//             'user': obj.user,
+//             'iat': Math.floor(Date.now() / 1000),
+//             'exp': Math.floor(Date.now() / 1000 + TIMEOUT)
+//         },
+//         privateKey
+//     );
+//     return token;
+// }
 
 function error(req, res, err) {
     res.status(err.code).send(err.message);
