@@ -16,7 +16,7 @@ ERRORS.create({
 });
 
 
-const getCoffeById = async (id, req, res) => {
+const getCoffeById = async (req, res,id) => {
     let queryString = "SELECT * FROM  coffee_type WHERE id=?";
     const result = await db.execute(queryString, [id], req, res);
     return ({
@@ -32,6 +32,17 @@ const addCoffe = async (req, res,variety, name, productor, origin, region, altit
     });
 }
 
+const deleteCoffe= async(req, res, id)=>{
+    let queryString="DELETE FROM coffee_type WHERE id=?"
+    const result = await db.execute(queryString, [id], req, res);
+    return ({
+        data: result,
+    });
+}
+
+
+
+
 const prova= async(req, res)=>{
     const result = await db.execute("SELECT * FROM coffee_type", [], req, res)
     
@@ -42,5 +53,8 @@ const prova= async(req, res)=>{
 
 module.exports = {
     getCoffeById,
-    addCoffe, prova
+    addCoffe,
+    deleteCoffe,
+    
+    prova
 }

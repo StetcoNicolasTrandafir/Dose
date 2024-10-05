@@ -58,9 +58,26 @@ const getById = async (req, res, next) => {
     if(!id)
         error(req, res, new ERRORS.BAD_REQUEST({}));
   
-    const risultato = await coffee_typeService.getCoffeById(id, req, res);
+    const risultato = await coffee_typeService.getCoffeById(req, res,id);
     res.send(risultato);
     // next();
+  } catch (e) {
+    console.log(e.message)
+    res.sendStatus(500) && next(error)
+  }
+}
+
+const deleteCoffe = async (req, res, next) => {
+  
+  try {
+    const id = req.body["id"];
+
+    console.log(id)
+    if(!id)
+        error(req, res, new ERRORS.BAD_REQUEST({}));
+  
+    const risultato = await coffee_typeService.deleteCoffe(req, res, id);
+    res.send(risultato);
   } catch (e) {
     console.log(e.message)
     res.sendStatus(500) && next(error)
@@ -75,5 +92,9 @@ function error(req, res, err) {
 
 module.exports = {
   addCoffe,
-  getById, prova
+  getById, 
+  deleteCoffe,
+  
+  
+  prova
 }
