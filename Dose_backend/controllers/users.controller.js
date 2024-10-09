@@ -5,10 +5,6 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 // const privateKey = fs.readFileSync("keys/private.key", "utf8");
 const ERRORS = require('errors');
-const {
-  crypto
-} = require("../crypto");
-
 
 //Gestione errori del TOKEN
 ERRORS.create({

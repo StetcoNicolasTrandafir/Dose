@@ -1,6 +1,6 @@
 const {
     db
-} = require("../db");
+}= require("../myFunctions/index")
 const ERRORS = require('errors');
 
 ERRORS.create({

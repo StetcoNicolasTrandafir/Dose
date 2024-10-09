@@ -1,14 +1,12 @@
 const {
   coffee_typeService
 } = require("../services")
+
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 // const privateKey = fs.readFileSync("keys/private.key", "utf8");
 const ERRORS = require('errors');
-const {
-  crypto
-} = require("../crypto");
-const { nextTick } = require("process");
+
 
 ERRORS.create({
   name: 'BAD_REQUEST',
