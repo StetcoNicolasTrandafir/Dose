@@ -24,19 +24,23 @@ const connection = mysql.createConnection({
 
 
 const execute = async (sql, params, req, res) => {
-
-  const result = await new Promise(function(resolve, reject) { 
-    connection.query(sql, params, function(err, rows, fields) {
-      if (err) {
-        console.log(err)
-        error(req, res, new ERRORS.QUERY_EXECUTE({}));
-        //reject(err);
-      }
-      resolve(rows);
+  try{
+    const result = await new Promise(function(resolve, reject) { 
+      connection.query(sql, params, function(err, rows, fields) {
+        if (err) {
+          console.log(err)
+          //reject(err);
+        }
+        resolve(rows);
+        
+      });
     });
-  });
-  
-  return result;
+    return result;
+  }catch(e){
+    console.log(e)
+    error(req, res, new ERRORS.QUERY_EXECUTE({}));
+
+  }
 }
 
 function error(req, res, err) {
