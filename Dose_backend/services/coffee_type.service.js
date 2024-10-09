@@ -44,7 +44,7 @@ const deleteCoffe= async(req, res, id)=>{
 
 
 const prova= async(req, res)=>{
-    const result = await db.execute("SELECT * FROM coffee_type", [], req, res)
+    const result = await db.execute("SELECT id FROM coffee_type", [], req, res)
     
     return({data:result})
 }

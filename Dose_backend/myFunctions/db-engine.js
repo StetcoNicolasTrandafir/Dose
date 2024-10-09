@@ -29,7 +29,7 @@ const execute = async (sql, params, req, res) => {
       connection.query(sql, params, function(err, rows, fields) {
         if (err) {
           console.log(err)
-          //reject(err);
+          reject(err);
         }
         resolve(rows);
         
@@ -39,7 +39,6 @@ const execute = async (sql, params, req, res) => {
   }catch(e){
     console.log(e)
     error(req, res, new ERRORS.QUERY_EXECUTE({}));
-
   }
 }
 
