@@ -14,7 +14,7 @@ ERRORS.create({
   message: 'Bad Request: some parameters are missing or in bad format'
 });
 
-const addCoffe = async (req, res, next) => {
+const addCoffee = async (req, res, next) => {
   try {
     const variety = req.body["variety"];
     const name = req.body["name"];
@@ -33,7 +33,7 @@ const addCoffe = async (req, res, next) => {
     if(name==null)
       return error(req, res, new ERRORS.BAD_REQUEST({}));
     
-      const risultato = await coffee_typeService.addCoffe(req, res, 
+      const risultato = await coffee_typeService.addCoffee(req, res, 
           variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
       res.send(risultato);
       // next();
@@ -54,9 +54,9 @@ const getById = async (req, res, next) => {
     const id = req.query["id"];
 
     if(!id)
-        error(req, res, new ERRORS.BAD_REQUEST({}));
+        return error(req, res, new ERRORS.BAD_REQUEST({}));
   
-    const risultato = await coffee_typeService.getCoffeById(req, res,id);
+    const risultato = await coffee_typeService.getCoffeeById(req, res,id);
     res.send(risultato);
     // next();
   } catch (e) {
@@ -65,16 +65,16 @@ const getById = async (req, res, next) => {
   }
 }
 
-const deleteCoffe = async (req, res, next) => {
+const deleteCoffee = async (req, res, next) => {
   
   try {
     const id = req.body["id"];
 
     console.log(id)
     if(!id)
-        error(req, res, new ERRORS.BAD_REQUEST({}));
+        return error(req, res, new ERRORS.BAD_REQUEST({}));
   
-    const risultato = await coffee_typeService.deleteCoffe(req, res, id);
+    const risultato = await coffee_typeService.deleteCoffee(req, res, id);
     res.send(risultato);
   } catch (e) {
     console.log(e.message)
@@ -82,6 +82,15 @@ const deleteCoffe = async (req, res, next) => {
   }
 }
 
+const getAllCoffees=async(req, res, next)=>{
+  try {  
+    const risultato = await coffee_typeService.getAllCoffees(req, res);
+    res.send(risultato);
+  } catch (e) {
+    console.log(e.message)
+    res.sendStatus(500) && next(error)
+  }
+}
 
 function error(req, res, err) {
   res.status(err.code).send(err.message);
@@ -89,10 +98,10 @@ function error(req, res, err) {
 
 
 module.exports = {
-  addCoffe,
+  addCoffee,
   getById, 
-  deleteCoffe,
-  
+  deleteCoffee,
+  getAllCoffees,
   
   prova
 }

@@ -1,0 +1,32 @@
+
+SERVER:
+-file configurazione
+-unit test
+-sistemare la gestione degli errori (credo sia abbastanza importante capire la gestione del middleware, del next)
+-capire e implementare autenticazione token
+-eventualmente pensare ad un logger
+-gestione utenti
+-CRUD valutazioni
+
+
+CLIENT:
+-tutto ahahhahahaha
+più nel particolare (credo che siano anche in ordine di priorità, ma se ne parla)…
+[-gestione signIn/signUp], capire però con il discorso token
+-CRUD coffee types
+-gestione valutazioni caffè
+- … poi vediamo
+
+
+
+
+
+
+
+NOTE ED IDEE:
+-multilingua?  se impostiamo il client subito per gestire la cosa ci Evita una sbatta quando approdiamo sul mercato globale e siamo pronti per fare I milioni… ma che dico milioni? MILIARDI!
+
+
+dal Guerriero pizda mati è tutto.
+passo e chiudo
+ 

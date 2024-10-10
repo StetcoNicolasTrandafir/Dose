@@ -3,9 +3,13 @@ const { coffee_typeController } = require('../controllers')
 
 const router = express.Router()
 
+
+//CRUD
 router.get('/getCoffeeById', coffee_typeController.getById);
-router.post('/addCoffee',coffee_typeController.addCoffe)
-router.post('/deleteCoffee',coffee_typeController.deleteCoffe)
+router.get('/getAllCoffees', coffee_typeController.getAllCoffees);
+// router.post('/addCoffee',coffee_typeController.updateCoffee);
+router.post('/addCoffee',coffee_typeController.addCoffee);
+router.post('/deleteCoffee',coffee_typeController.deleteCoffee);
 
 
 router.post('/prova',coffee_typeController.prova)

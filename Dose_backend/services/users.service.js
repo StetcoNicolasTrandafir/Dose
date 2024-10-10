@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const {
     db
-}= require("../myFunctions/index")
+}= require("../utils/index")
 const ERRORS = require('errors');
 
 ERRORS.create({

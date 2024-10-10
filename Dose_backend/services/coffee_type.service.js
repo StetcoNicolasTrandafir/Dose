@@ -1,6 +1,6 @@
 const {
     db
-}= require("../myFunctions/index")
+}= require("../utils/index")
 const ERRORS = require('errors');
 
 ERRORS.create({
@@ -16,7 +16,7 @@ ERRORS.create({
 });
 
 
-const getCoffeById = async (req, res,id) => {
+const getCoffeeById = async (req, res,id) => {
     let queryString = "SELECT * FROM  coffee_type WHERE id=?";
     const result = await db.execute(queryString, [id], req, res);
     return ({
@@ -24,7 +24,7 @@ const getCoffeById = async (req, res,id) => {
     });
 }
 
-const addCoffe = async (req, res,variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate) => {
+const addCoffee = async (req, res,variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate) => {
     let queryString = "INSERT INTO coffee_type(name, productor, origin, region, altitude, variety, process, roasting_day, roasting_degree, roaster, harvest_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     const result = await db.execute(queryString, [name, productor, origin, region, altitude, variety, process, roastingDay, roastingDegree, roaster, harvestDate], req, res);
     return ({
@@ -32,7 +32,7 @@ const addCoffe = async (req, res,variety, name, productor, origin, region, altit
     });
 }
 
-const deleteCoffe= async(req, res, id)=>{
+const deleteCoffee= async(req, res, id)=>{
     let queryString="DELETE FROM coffee_type WHERE id=?"
     const result = await db.execute(queryString, [id], req, res);
     return ({
@@ -41,6 +41,13 @@ const deleteCoffe= async(req, res, id)=>{
 }
 
 
+const getAllCoffees=async(req, res)=>{
+    let queryString="SELECT * FROM coffee_type"
+    const result = await db.execute(queryString, [], req, res);
+    return ({
+        data: result,
+    });
+}
 
 
 const prova= async(req, res)=>{
@@ -52,9 +59,10 @@ const prova= async(req, res)=>{
 
 
 module.exports = {
-    getCoffeById,
-    addCoffe,
-    deleteCoffe,
-    
+    getCoffeeById,
+    addCoffee,
+    deleteCoffee,
+    getAllCoffees,
+
     prova
 }
