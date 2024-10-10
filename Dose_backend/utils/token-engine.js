@@ -1,5 +1,9 @@
 const ERRORS = require('errors');
 //TODO da mettere in un modulo a parte
+
+
+
+
 const controlloToken = async (req, res, next) => {
   let ctrlToken = await controllaToken(req, res);
   //console.log(ctrlToken);
@@ -44,7 +48,6 @@ async function controllaToken(req, res) {
 
       ctrlToken.allow = true;
       if (result) {
-        //ctrlToken.allow=true;
         ctrlToken.payload = result;
       } else {
         ctrlToken.payload = {
