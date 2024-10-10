@@ -52,7 +52,7 @@ const getAllCoffees=async(req, res)=>{
 
 const updateCoffee = async(req, res,variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate, id) => {
     //let queryString = "UDPATE coffee_type SET(name, productor, origin, region, altitude, variety, process, roasting_day, roasting_degree, roaster, harvest_date) "
-    let queryString = "UDPATE coffee_type SET name = ?, productor = ?, origin = ?, region= ?, altitude = ?, variety = ?, process = ?, roasting_day = ?, roasting_degree = ?, roaster = ?, harvest_date = ? WHERE Id = ?"
+    let queryString = "UPDATE coffee_type SET name = ?, productor = ?, origin = ?, region= ?, altitude = ?, variety = ?, process = ?, roasting_day = ?, roasting_degree = ?, roaster = ?, harvest_date = ? WHERE Id = ?"
     const result = await db.execute(queryString,[name, productor, origin, region, altitude, variety, process, roastingDay, roastingDegree, roaster, harvestDate, id], req, res);
     return({
         data: result,

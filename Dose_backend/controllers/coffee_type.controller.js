@@ -94,6 +94,7 @@ const getAllCoffees=async(req, res, next)=>{
 
 
 const updateCoffee = async(req, res, next)=>{
+  //console.log("debug 1");
   try {
     const id = req.body["id"];
     const variety = req.body["variety"];
