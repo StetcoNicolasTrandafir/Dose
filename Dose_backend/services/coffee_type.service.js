@@ -1,3 +1,4 @@
+
 const {
     db
 }= require("../utils/index")
@@ -16,7 +17,7 @@ ERRORS.create({
 });
 
 
-const getCoffeeById = async (req, res,id) => {
+const getCoffeeById = async (req, res,id) => {    
     let queryString = "SELECT * FROM  coffee_type WHERE id=?";
     const result = await db.execute(queryString, [id], req, res);
     return ({
@@ -49,6 +50,14 @@ const getAllCoffees=async(req, res)=>{
     });
 }
 
+const updateCoffee = async(req, res,variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate, id) => {
+    //let queryString = "UDPATE coffee_type SET(name, productor, origin, region, altitude, variety, process, roasting_day, roasting_degree, roaster, harvest_date) "
+    let queryString = "UDPATE coffee_type SET name = ?, productor = ?, origin = ?, region= ?, altitude = ?, variety = ?, process = ?, roasting_day = ?, roasting_degree = ?, roaster = ?, harvest_date = ? WHERE Id = ?"
+    const result = await db.execute(queryString,[name, productor, origin, region, altitude, variety, process, roastingDay, roastingDegree, roaster, harvestDate, id], req, res);
+    return({
+        data: result,
+    })
+}
 
 const prova= async(req, res)=>{
     const result = await db.execute("SELECT id FROM coffee_type", [], req, res)
@@ -63,6 +72,6 @@ module.exports = {
     addCoffee,
     deleteCoffee,
     getAllCoffees,
-
+    updateCoffee,
     prova
 }

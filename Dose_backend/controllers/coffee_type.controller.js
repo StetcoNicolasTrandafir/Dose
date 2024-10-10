@@ -92,6 +92,32 @@ const getAllCoffees=async(req, res, next)=>{
   }
 }
 
+
+const updateCoffee = async(req, res, next)=>{
+  try {
+    const id = req.body["id"];
+    const variety = req.body["variety"];
+    const name = req.body["name"];
+    const productor = req.body["productor"];
+    const origin = req.body["origin"];
+    const region = req.body["region"];
+    const altitude = req.body["altitude"];
+    const process= req.body["process"];
+    const roastingDay = req.body["roastingDay"];
+    const roastingDegree= req.body["roastingDegree"];
+    const roaster = req.body["roaster"];
+    const harvestDate= req.body["harvestDate"];
+  
+    const risultato = await coffee_typeService.updateCoffee(req, res, 
+          variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate, id);
+    res.send(risultato);
+      // next();
+  }catch (e) {
+    console.log(e.message);
+    res.sendStatus(500) && next(error)
+  }
+}
+
 function error(req, res, err) {
   res.status(err.code).send(err.message);
 }
@@ -102,6 +128,6 @@ module.exports = {
   getById, 
   deleteCoffee,
   getAllCoffees,
-  
+  updateCoffee,
   prova
 }
