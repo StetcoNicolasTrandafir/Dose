@@ -34,11 +34,12 @@ const addCoffee = async (req, res,variety, name, productor, origin, region, alti
 }
 
 const deleteCoffee= async(req, res, id)=>{
+       
     let queryString="DELETE FROM coffee_type WHERE id=?"
     const result = await db.execute(queryString, [id], req, res);
     return ({
         data: result,
-    });
+    }); 
 }
 
 

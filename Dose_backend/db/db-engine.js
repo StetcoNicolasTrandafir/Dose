@@ -24,7 +24,7 @@ const connection = mysql.createConnection({
 
 
 const execute = async (sql, params, req, res) => {
-
+  try{
   const result = await new Promise(function(resolve, reject) { 
     connection.query(sql, params, function(err, rows, fields) {
       if (err) {
@@ -35,8 +35,13 @@ const execute = async (sql, params, req, res) => {
       resolve(rows);
     });
   });
-  
+  console.log(result);
   return result;
+  }
+  catch(e){
+    console.log(e);
+    return error(req, res, new ERRORS.BAD_REQUEST({}));
+  }
 }
 
 function error(req, res, err) {

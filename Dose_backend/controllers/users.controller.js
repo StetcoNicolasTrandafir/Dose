@@ -46,10 +46,10 @@ const login = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
 
-  let ctrlToken = await controllaToken(req, res);
-
-  let id = ctrlToken.payload._id;
+  
   try {
+    let ctrlToken = await controllaToken(req, res);
+    let id = ctrlToken.payload._id;
     const risultato = await usersService.getUser(id, req, res);
     res.send(risultato);
 
