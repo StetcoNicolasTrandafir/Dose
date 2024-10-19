@@ -1,12 +1,4 @@
 const crypto = require('crypto');
-const ERRORS = require('errors');
-
-
-ERRORS.create({
-    code: 600,
-    name: 'DB_CONNECTION',
-    defaultMessage: 'An error occured when connecting to database'
-});
 
 
 const algorithm = 'aes-256-ctr';

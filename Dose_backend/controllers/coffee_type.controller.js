@@ -5,16 +5,9 @@ const {
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 // const privateKey = fs.readFileSync("keys/private.key", "utf8");
-// const ERRORS = require('errors');
 
 const {errors}= require("../utils")
 
-
-// ERRORS.create({
-//   name: 'BAD_REQUEST',
-//   code: 400,
-//   message: 'Bad Request: some parameters are missing or in bad format'
-// });
 
 const addCoffee = async (req, res, next) => {
   try {

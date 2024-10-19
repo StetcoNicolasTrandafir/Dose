@@ -1,4 +1,4 @@
-const ERRORS = require('errors');
+let ERRORS= require('errors');
 
 
 //Gestione errori del DATABASE
@@ -17,7 +17,7 @@ ERRORS.create({
 ERRORS.create({
   name: 'BAD_REQUEST',
   code: 400,
-  message: 'Bad Request: some parameters are missing or in bad format'
+  defaultMessage: 'Bad Request: some parameters are missing or in bad format'
 });
 
 ERRORS.create({
