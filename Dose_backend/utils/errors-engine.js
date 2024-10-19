@@ -1,22 +1,40 @@
-// const ERRORS = require('errors');
-
-// ERRORS.create({
-//   name: 'BAD_REQUEST',
-//   code: 400,
-//   message: 'Bad Request: some parameters are missing or in bad format'
-// });
+const ERRORS = require('errors');
 
 
-const sendError= (req, res, err) =>{
-    res.status(400);
-    res.send({
-      error:"err.name",
-      // data:err.message
-    });
-    // res.status(err.code).send(err.message);
-  }
-  
+//Gestione errori del DATABASE
+ERRORS.create({
+  code: 601,
+  name: 'QUERY_EXECUTE',
+  defaultMessage: 'An error occured during the query execution'
+});
 
-  module.exports=[
-    sendError
-  ]
+ERRORS.create({
+  code: 600,
+  name: 'DB_CONNECTION',
+  defaultMessage: 'An error occured when connecting to database'
+});
+
+ERRORS.create({
+  name: 'BAD_REQUEST',
+  code: 400,
+  message: 'Bad Request: some parameters are missing or in bad format'
+});
+
+ERRORS.create({
+  name: 'ERRORE_DI_PROVA',
+  code: 666,
+  defaultMessage: 'SUUUUUUUUUUUUUUUUUUUUUUUUUCA'
+});
+
+
+const sendError = (req, res, err) => {
+  res.status(err.code);
+  res.send({error:err})
+}
+
+
+
+module.exports = {
+  sendError,
+  ERRORS
+}

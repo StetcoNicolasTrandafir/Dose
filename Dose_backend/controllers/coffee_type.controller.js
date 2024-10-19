@@ -5,14 +5,16 @@ const {
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 // const privateKey = fs.readFileSync("keys/private.key", "utf8");
-const ERRORS = require('errors');
+// const ERRORS = require('errors');
+
+const {errors}= require("../utils")
 
 
-ERRORS.create({
-  name: 'BAD_REQUEST',
-  code: 400,
-  message: 'Bad Request: some parameters are missing or in bad format'
-});
+// ERRORS.create({
+//   name: 'BAD_REQUEST',
+//   code: 400,
+//   message: 'Bad Request: some parameters are missing or in bad format'
+// });
 
 const addCoffee = async (req, res, next) => {
   try {
@@ -31,7 +33,7 @@ const addCoffee = async (req, res, next) => {
 
     
     if(name==null)
-      return error(req, res, new ERRORS.BAD_REQUEST({}));
+      errors.sendError(req, res, new errors.ERRORS.BAD_REQUEST({}));
     
       const risultato = await coffee_typeService.addCoffee(req, res, 
           variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
@@ -43,15 +45,7 @@ const addCoffee = async (req, res, next) => {
     }
 }
 
-const prova= async(req, res, next)=> {
-  
-  if(req.body["provaErrore"])
-    errors.sendError(req, res, "new ERRORS.BAD_REQUEST({})");
 
-  const ris= await coffee_typeService.prova(req, res)
-  res.status(200)
-  res.send(ris)
-}
   
 const getById = async (req, res, next) => {
   
@@ -59,7 +53,7 @@ const getById = async (req, res, next) => {
     const id = req.query["id"];
 
     if(!id)
-        return error(req, res, new ERRORS.BAD_REQUEST({}));
+      errors.sendError(req, res, new errors.ERRORS.BAD_REQUEST({}));
   
     const risultato = await coffee_typeService.getCoffeeById(req, res,id);
     res.send(risultato);
@@ -77,7 +71,7 @@ const deleteCoffee = async (req, res, next) => {
 
     console.log(id)
     if(!id)
-        return error(req, res, new ERRORS.BAD_REQUEST({}));
+      errors.sendError(req, res, new errors.ERRORS.BAD_REQUEST({}));
   
     const risultato = await coffee_typeService.deleteCoffee(req, res, id);
     res.send(risultato);
@@ -122,6 +116,16 @@ const updateCoffee = async(req, res, next)=>{
     console.log(e.message);
     res.sendStatus(500) && next(error)
   }
+}
+
+const prova= async(req, res, next)=> {
+  
+  if(req.body["provaErrore"])
+    errors.sendError(req, res, new errors.ERRORS.ERRORE_DI_PROVA({}));
+
+  const ris= await coffee_typeService.prova(req, res)
+  res.status(200)
+  res.send(ris)
 }
 
 function error(req, res, err) {
