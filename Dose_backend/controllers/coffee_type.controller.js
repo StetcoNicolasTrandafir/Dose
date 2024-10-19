@@ -44,10 +44,15 @@ const addCoffee = async (req, res, next) => {
 }
 
 const prova= async(req, res, next)=> {
+  
+  if(req.body["provaErrore"])
+    errors.sendError(req, res, "new ERRORS.BAD_REQUEST({})");
+
   const ris= await coffee_typeService.prova(req, res)
+  res.status(200)
   res.send(ris)
 }
-
+  
 const getById = async (req, res, next) => {
   
   try {

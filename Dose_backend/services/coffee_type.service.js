@@ -61,9 +61,9 @@ const updateCoffee = async(req, res,variety, name, productor, origin, region, al
 }
 
 const prova= async(req, res)=>{
-    const result = await db.execute("SELECT id FROM coffee_type", [], req, res)
+    // const result = await db.execute("SELECT id FROM coffee_type", [], req, res)
     
-    return({data:result})
+    return({data:"OK"})
 }
 
 
