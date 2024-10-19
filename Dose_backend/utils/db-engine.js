@@ -11,6 +11,7 @@ const connection = mysql.createConnection({
 
 const execute = async (sql, params, req, res) => {
     const result = await new Promise((resolve, reject) => {
+      // console.log(sql)
       connection.query(sql, params, (err, rows) => {
         if (err) {
           reject(err);
@@ -18,6 +19,7 @@ const execute = async (sql, params, req, res) => {
         resolve(rows);
       });
     });
+    // console.log(result)
     return result;
 };
 

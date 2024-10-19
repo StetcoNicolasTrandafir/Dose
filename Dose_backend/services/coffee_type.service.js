@@ -20,6 +20,7 @@ ERRORS.create({
 const getCoffeeById = async (req, res,id) => {    
     let queryString = "SELECT * FROM  coffee_type WHERE id=?";
     const result = await db.execute(queryString, [id], req, res);
+    // console.log(result)
     return ({
         data: result,
     });

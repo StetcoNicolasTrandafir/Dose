@@ -26,7 +26,7 @@ const addCoffee = async (req, res, next) => {
 
     
     if(!name)
-      errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
+      return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
     
       const risultato = await coffee_typeService.addCoffee(req, res, 
           variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
@@ -54,10 +54,12 @@ const getById = async (req, res, next) => {
       return errors.sendCustomError(req, res, new errors.ERRORS.BAD_FORMAT_PARAMETERS({}));
   
     const risultato = await coffee_typeService.getCoffeeById(req, res,id);
-    res.send(risultato);
+    console.log(risultato);
+    res.status(200).send(risultato);
     // next();
   } catch (e) {
     console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    console.log(e)
     errors.sendError(req, res, e)
   }
 }
@@ -73,6 +75,7 @@ const deleteCoffee = async (req, res, next) => {
       return errors.sendCustomError(req, res, new errors.ERRORS.BAD_FORMAT_PARAMETERS({}));
   
     const risultato = await coffee_typeService.deleteCoffee(req, res, id);
+    console.log(risultato)
     res.send(risultato);
   } catch (e) {
     console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
