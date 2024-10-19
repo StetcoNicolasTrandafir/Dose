@@ -15,9 +15,14 @@ ERRORS.create({
 });
 
 ERRORS.create({
-  name: 'BAD_REQUEST',
+  name: 'MISSING_PARAMETER',
   code: 400,
-  defaultMessage: 'Bad Request: some parameters are missing or in bad format'
+  defaultMessage: 'Bad Request: some parameters are missing'
+});
+ERRORS.create({
+  name: 'BAD_FORMAT_PARAMETERS',
+  code: 400,
+  defaultMessage: 'Bad Request: some parameters are not in the right format'
 });
 
 ERRORS.create({
@@ -28,13 +33,18 @@ ERRORS.create({
 
 
 const sendError = (req, res, err) => {
-  res.status(err.code);
-  res.send({error:err})
+  res.status(err.code).send({error:err})
 }
 
-
+const sendCustomError = (req, res, err) => {
+  // console.log(err)
+  // console.log(err.message)
+  res.status(err.code).send({messageError:err.message, name:err.name})
+  // res.status(err.code).send({error:err})
+}
 
 module.exports = {
   sendError,
+  sendCustomError,
   ERRORS
 }

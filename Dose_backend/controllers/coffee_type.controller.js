@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 // const privateKey = fs.readFileSync("keys/private.key", "utf8");
 
-const {errors}= require("../utils")
+const {errors}= require("../utils");
 
 
 const addCoffee = async (req, res, next) => {
@@ -26,7 +26,7 @@ const addCoffee = async (req, res, next) => {
 
     
     if(name==null)
-      errors.sendError(req, res, new errors.ERRORS.BAD_REQUEST({}));
+      errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
     
       const risultato = await coffee_typeService.addCoffee(req, res, 
           variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
@@ -34,7 +34,7 @@ const addCoffee = async (req, res, next) => {
       // next();
     } catch (e) {
       console.log(e.message)
-      res.sendStatus(500) && next(error)
+      res.sendStatus(500) //&& next(error)
     }
 }
 
@@ -45,15 +45,18 @@ const getById = async (req, res, next) => {
   try {
     const id = req.query["id"];
 
-    if(!id)
-      errors.sendError(req, res, new errors.ERRORS.BAD_REQUEST({}));
+    if(!id){
+      return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
+    }
+    if(isNaN(id)||id<0)
+      return errors.sendCustomError(req, res, new errors.ERRORS.BAD_FORMAT_PARAMETERS({}));
   
     const risultato = await coffee_typeService.getCoffeeById(req, res,id);
     res.send(risultato);
     // next();
   } catch (e) {
-    console.log(e.message)
-    res.sendStatus(500) && next(error)
+    console.log(e.code)
+    errors.sendError(req, res, e)
   }
 }
 
@@ -64,7 +67,7 @@ const deleteCoffee = async (req, res, next) => {
 
     console.log(id)
     if(!id)
-      errors.sendError(req, res, new errors.ERRORS.BAD_REQUEST({}));
+      errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
   
     const risultato = await coffee_typeService.deleteCoffee(req, res, id);
     res.send(risultato);
@@ -80,7 +83,7 @@ const getAllCoffees=async(req, res, next)=>{
     res.send(risultato);
   } catch (e) {
     console.log(e.message)
-    res.sendStatus(500) && next(error)
+    res.sendStatus(500) //&& next(error)
   }
 }
 
@@ -114,7 +117,7 @@ const updateCoffee = async(req, res, next)=>{
 const prova= async(req, res, next)=> {
   
   if(req.body["provaErrore"])
-    errors.sendError(req, res, new errors.ERRORS.ERRORE_DI_PROVA({}));
+    return errors.sendCustomError(req, res, new errors.ERRORS.ERRORE_DI_PROVA({}));
 
   const ris= await coffee_typeService.prova(req, res)
   res.status(200)

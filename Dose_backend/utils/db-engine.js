@@ -10,7 +10,6 @@ const connection = mysql.createConnection({
 });
 
 const execute = async (sql, params, req, res) => {
-  try {
     const result = await new Promise((resolve, reject) => {
       connection.query(sql, params, (err, rows) => {
         if (err) {
@@ -20,10 +19,6 @@ const execute = async (sql, params, req, res) => {
       });
     });
     return result;
-  } catch (e) {
-    console.log(e);
-    sendError(req, res, new ERRORS.QUERY_EXECUTE({}));
-  }
 };
 
 module.exports = {
