@@ -25,7 +25,7 @@ const addCoffee = async (req, res, next) => {
     
 
     
-    if(name==null)
+    if(!name)
       errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
     
       const risultato = await coffee_typeService.addCoffee(req, res, 
@@ -43,6 +43,8 @@ const addCoffee = async (req, res, next) => {
 const getById = async (req, res, next) => {
   
   try {
+
+    
     const id = req.query["id"];
 
     if(!id){
@@ -55,7 +57,7 @@ const getById = async (req, res, next) => {
     res.send(risultato);
     // next();
   } catch (e) {
-    console.log(e.code)
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
     errors.sendError(req, res, e)
   }
 }
@@ -64,16 +66,17 @@ const deleteCoffee = async (req, res, next) => {
   
   try {
     const id = req.body["id"];
-
-    console.log(id)
-    if(!id)
-      errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
+    if(!id){
+      return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
+    }
+    if(isNaN(id)||id<0)
+      return errors.sendCustomError(req, res, new errors.ERRORS.BAD_FORMAT_PARAMETERS({}));
   
     const risultato = await coffee_typeService.deleteCoffee(req, res, id);
     res.send(risultato);
   } catch (e) {
-    console.log(e.message)
-    res.sendStatus(500) //&& next(error)
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    errors.sendError(req, res, e)
   }
 }
 
@@ -82,8 +85,8 @@ const getAllCoffees=async(req, res, next)=>{
     const risultato = await coffee_typeService.getAllCoffees(req, res);
     res.send(risultato);
   } catch (e) {
-    console.log(e.message)
-    res.sendStatus(500) //&& next(error)
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    errors.sendError(req, res, e)
   }
 }
 
@@ -103,14 +106,20 @@ const updateCoffee = async(req, res, next)=>{
     const roastingDegree= req.body["roastingDegree"];
     const roaster = req.body["roaster"];
     const harvestDate= req.body["harvestDate"];
+
+    if(!id){
+      return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
+    }
+    if(isNaN(id)||id<0)
+      return errors.sendCustomError(req, res, new errors.ERRORS.BAD_FORMAT_PARAMETERS({}));
   
     const risultato = await coffee_typeService.updateCoffee(req, res, 
           variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate, id);
     res.send(risultato);
       // next();
   }catch (e) {
-    console.log(e.message);
-    res.sendStatus(500) && next(error)
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    errors.sendError(req, res, e)
   }
 }
 
