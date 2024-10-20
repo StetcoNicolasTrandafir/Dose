@@ -30,7 +30,7 @@ const addCoffee = async (req, res, next) => {
     
       const risultato = await coffee_typeService.addCoffee(req, res, 
           variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate);
-      res.send(risultato);
+      res.status(200).send({insertId:risultato.data.insertId});
       // next();
     } catch (e) {
       console.log(e.message)
@@ -58,8 +58,8 @@ const getById = async (req, res, next) => {
     res.status(200).send(risultato);
     // next();
   } catch (e) {
-    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
-    console.log(e)
+    // console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    // console.log(e)
     errors.sendError(req, res, e)
   }
 }
@@ -110,6 +110,8 @@ const updateCoffee = async(req, res, next)=>{
     const roaster = req.body["roaster"];
     const harvestDate= req.body["harvestDate"];
 
+    // console.log(harvestDate, roastingDay)
+
     if(!id){
       return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
     }
@@ -118,8 +120,8 @@ const updateCoffee = async(req, res, next)=>{
   
     const risultato = await coffee_typeService.updateCoffee(req, res, 
           variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate, id);
-    res.send(risultato);
-      // next();
+    // console.log(risultato)
+    res.status(200).send(risultato);
   }catch (e) {
     console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
     errors.sendError(req, res, e)

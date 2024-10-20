@@ -6,7 +6,8 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'Dose'
+  database: 'Dose',
+  timezone: 'Z' 
 });
 
 const execute = async (sql, params, req, res) => {

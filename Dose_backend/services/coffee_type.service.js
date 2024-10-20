@@ -20,6 +20,13 @@ ERRORS.create({
 const getCoffeeById = async (req, res,id) => {    
     let queryString = "SELECT * FROM  coffee_type WHERE id=?";
     const result = await db.execute(queryString, [id], req, res);
+    // console.log(result, id)
+    // if(result[0]&&result[0].harvest_date&&result[0].roasting_day)
+    // {
+    //     console.log(result[0].harvest_date,result[0].roasting_day)
+    //     result[0].harvest_date  = result[0].harvest_date.toLocaleDateString('it-IT');
+    //     result[0].roasting_day  = result[0].roasting_day.toLocaleDateString('it-IT');
+    // }
     // console.log(result)
     return ({
         data: result,
@@ -27,7 +34,18 @@ const getCoffeeById = async (req, res,id) => {
 }
 
 const addCoffee = async (req, res,variety, name, productor, origin, region, altitude, process, roastingDay, roastingDegree, roaster, harvestDate) => {
+    
     let queryString = "INSERT INTO coffee_type(name, productor, origin, region, altitude, variety, process, roasting_day, roasting_degree, roaster, harvest_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    // const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+
+    // if(roastingDay && !regex.test(roastingDay))
+    // {
+    //     // console.log(roastingDay)
+    //     roastingDay=roastingDay.toLocaleDateString('it-IT')
+    // }
+    // if(harvestDate)
+    //     harvestDate=harvestDate.toLocaleDateString('it-IT')
+
     const result = await db.execute(queryString, [name, productor, origin, region, altitude, variety, process, roastingDay, roastingDegree, roaster, harvestDate], req, res);
     return ({
         data: result,
@@ -47,6 +65,7 @@ const deleteCoffee= async(req, res, id)=>{
 const getAllCoffees=async(req, res)=>{
     let queryString="SELECT * FROM coffee_type"
     const result = await db.execute(queryString, [], req, res);
+
     return ({
         data: result,
     });
