@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 const fs = require('fs');
 
 const {
-    db
+    db,
+    token
 }= require("../utils/index")
 const ERRORS = require('errors');
 
@@ -32,30 +33,43 @@ const login = async (mail, password, req, res) => {
     console.log("TEST MAIL=> " + re.test(String(mail).toLowerCase()));
     let queryString;
     if (re.test(String(mail).toLowerCase()))
-        queryString = "SELECT * FROM utenti WHERE mail=?";
+        queryString = "SELECT * FROM users WHERE email=?";
     else
-        queryString = "SELECT * FROM utenti WHERE username=?";
+        queryString = "SELECT * FROM users WHERE nickname=?";
 
     const result = await db.execute(queryString, [mail], req, res);
     if (result.length > 0) {
 
-        const comp = await bcrypt.compare(password, result[0].password);
-
-        if (comp) {
-            let token = createToken({
-                "_id": result[0].idUtente,
-                "user": result[0].username
+        // const comp = await bcrypt.compare(password, result[0].password);
+        if(password==result[0].password)
+        {
+            let newToken = token.createToken({
+                "_id": result[0].id,
+                "user": result[0].nickname
             });
-            console.log("token " + token);
+            console.log("token " + newToken);
             return {
-                "token": token,
+                "token": newToken,
                 "data": result
-            };
-        } else {
-            return {
-                error: "Password errata"
-            };
+            };            
         }
+        else
+            return {error:"Wrong password"}
+        // if (comp) {
+        //     let token = createToken({
+        //         "_id": result[0].idUtente,
+        //         "user": result[0].username
+        //     });
+        //     console.log("token " + token);
+        //     return {
+        //         "token": token,
+        //         "data": result
+        //     };
+        // } else {
+        //     return {
+        //         error: "Password errata"
+        //     };
+        // }
     } else
         return ({
             error: "Username o mail errata"

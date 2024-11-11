@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 // const privateKey = fs.readFileSync("keys/private.key", "utf8");
 
-const {errors}= require("../utils");
+const {errors, token}= require("../utils");
 
 
 const addCoffee = async (req, res, next) => {
@@ -128,6 +128,21 @@ const updateCoffee = async(req, res, next)=>{
   }
 }
 
+const getMyCoffees= async(req, res, next)=>{
+  const ctrlToken= await token.controllaToken(req, res);
+  let userId = ctrlToken.payload._id;
+
+  try{
+    const ris= await coffee_typeService.getMyCoffees(req, res, userId);
+    res.status(200).send({data:ris.data, token:ctrlToken});
+  }catch(e){
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    console.log(e.message)
+    errors.sendError(req, res, e)
+  }
+  
+}
+
 const prova= async(req, res, next)=> {
   
   if(req.body["provaErrore"])
@@ -138,10 +153,6 @@ const prova= async(req, res, next)=> {
   res.send(ris)
 }
 
-function error(req, res, err) {
-  res.status(err.code).send(err.message);
-}
-
 
 module.exports = {
   addCoffee,
@@ -149,5 +160,6 @@ module.exports = {
   deleteCoffee,
   getAllCoffees,
   updateCoffee,
+  getMyCoffees,
   prova
 }

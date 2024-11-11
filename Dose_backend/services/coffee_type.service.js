@@ -75,11 +75,16 @@ const updateCoffee = async(req, res,variety, name, productor, origin, region, al
     //let queryString = "UDPATE coffee_type SET(name, productor, origin, region, altitude, variety, process, roasting_day, roasting_degree, roaster, harvest_date) "
     let queryString = "UPDATE coffee_type SET name = ?, productor = ?, origin = ?, region= ?, altitude = ?, variety = ?, process = ?, roasting_day = ?, roasting_degree = ?, roaster = ?, harvest_date = ? WHERE Id = ?"
     const result = await db.execute(queryString,[name, productor, origin, region, altitude, variety, process, roastingDay, roastingDegree, roaster, harvestDate, id], req, res);
-    let response;
     if(result["affectedRows"]==0)
         return({data:"Coffe type not found"})
     else
         return({data:id})
+}
+
+const getMyCoffees=async(req, res, id)=>{
+    let queryString="SELECT  * FROM coffee_type where ownerId=?";
+    const result = await db.execute(queryString,[id], req, res);
+    return({data:result});
 }
 
 const prova= async(req, res)=>{
@@ -96,5 +101,6 @@ module.exports = {
     deleteCoffee,
     getAllCoffees,
     updateCoffee,
+    getMyCoffees,
     prova
 }

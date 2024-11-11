@@ -1,4 +1,8 @@
 const { ERRORS, sendError } = require('./errors-engine'); // Importa il modulo degli errori
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const privateKey = 'fs.readFileSync("./keys/private.key", "utf8")';
+
 
 const controlloToken = async (req, res, next) => {
   let ctrlToken = await controllaToken(req, res);
@@ -31,6 +35,7 @@ async function controllaToken(req, res) {
       let result;
       try {
         result = await jwt.verify(token, privateKey);
+        console.log(result)
       } catch (ex) {
         console.log(ex);
       }
@@ -50,6 +55,20 @@ async function controllaToken(req, res) {
   return ctrlToken;
 }
 
+function createToken(obj) {
+  let token = jwt.sign({
+      '_id': obj._id,
+      'user': obj.user,
+      'iat': Math.floor(Date.now() / 1000),
+      'exp': Math.floor(Date.now() / 1000 + 999999)
+    },
+    privateKey
+  );
+  return token;
+}
+
 module.exports = {
   controlloToken,
+  controllaToken,
+  createToken
 };

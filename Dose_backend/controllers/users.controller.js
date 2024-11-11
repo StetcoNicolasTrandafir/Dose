@@ -2,8 +2,7 @@ const {
   usersService
 } = require("../services")
 const jwt = require("jsonwebtoken");
-const fs = require("fs");
-// const privateKey = fs.readFileSync("keys/private.key", "utf8");
+
 const ERRORS = require('errors');
 
 //Gestione errori del TOKEN
@@ -34,7 +33,6 @@ const login = async (req, res, next) => {
     const risultato = await usersService.login(id, pwd, req, res);
     console.log("risultato", risultato);
     res.send(risultato);
-
     next();
   } catch (e) {
     console.log(e.message)

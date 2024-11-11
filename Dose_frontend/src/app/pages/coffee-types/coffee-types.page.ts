@@ -13,11 +13,12 @@ export class CoffeeTypesPage implements OnInit {
   ngOnInit() {
 
     
-    this.http.get('coffee_type/getAllCoffees', { }, {  })
+    this.http.get('coffee_type/getAllCoffees', { })
     .subscribe((response: any) => {
       // console.log('Risposta POST con axios:', response);
       this.coffeeTypes=response.data
       console.log(this.coffeeTypes)
+      localStorage.setItem("token", response.token);
     },(error: any) => {
       console.error('Errore POST:', error)
     });

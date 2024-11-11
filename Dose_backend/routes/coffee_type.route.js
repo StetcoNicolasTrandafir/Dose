@@ -11,6 +11,8 @@ router.post('/addCoffee',coffee_typeController.addCoffee);
 router.post('/deleteCoffee',coffee_typeController.deleteCoffee);
 router.post('/updateCoffee', coffee_typeController.updateCoffee);
 
+router.get('/getMyCoffees', coffee_typeController.getMyCoffees);
+
 router.post('/prova',coffee_typeController.prova)
 
 module.exports = router
