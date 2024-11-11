@@ -60,7 +60,7 @@ function createToken(obj) {
       '_id': obj._id,
       'user': obj.user,
       'iat': Math.floor(Date.now() / 1000),
-      'exp': Math.floor(Date.now() / 1000 + 999999)
+      'exp': Math.floor(Date.now() / 1000 + 9999999)
     },
     privateKey
   );

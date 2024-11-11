@@ -10,7 +10,7 @@ export class HomePage implements OnInit {
   constructor(private http: HttpService) { }
 
   ngOnInit() {
-    this.http.post('coffee_type/prova', { }, {  })
+    this.http.post('coffee_type/prova', { })
       .subscribe((response: any) => {
         console.log('Risposta POST con axios:', response);
       },(error: any) => {

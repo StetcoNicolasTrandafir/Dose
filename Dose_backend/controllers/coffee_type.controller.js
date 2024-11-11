@@ -23,8 +23,6 @@ const addCoffee = async (req, res, next) => {
     const roaster = req.body["roaster"];
     const harvestDate= req.body["harvestDate"];
     
-
-    
     if(!name)
       return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
     
@@ -37,16 +35,11 @@ const addCoffee = async (req, res, next) => {
       res.sendStatus(500) //&& next(error)
     }
 }
-
-
   
 const getById = async (req, res, next) => {
   
   try {
-
-    
     const id = req.query["id"];
-
     if(!id){
       return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
     }
@@ -140,7 +133,6 @@ const getMyCoffees= async(req, res, next)=>{
     console.log(e.message)
     errors.sendError(req, res, e)
   }
-  
 }
 
 const prova= async(req, res, next)=> {

@@ -12,13 +12,15 @@ export class CoffeeTypesPage implements OnInit {
   
   ngOnInit() {
 
+    let token:string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsInVzZXIiOiJHaW5vUGlubyIsImlhdCI6MTczMTM1MzE2OSwiZXhwIjoxNzQxMzUzMTY4fQ.E8Rhlk4ef84LYAlNjE8NFfke1UsmDsvhDT4x0aFBHEs";
+    localStorage.setItem("token", token);
     
-    this.http.get('coffee_type/getAllCoffees', { })
+    this.http.get('coffee_type/getMyCoffees', { })
     .subscribe((response: any) => {
       // console.log('Risposta POST con axios:', response);
       this.coffeeTypes=response.data
       console.log(this.coffeeTypes)
-      localStorage.setItem("token", response.token);
+      // localStorage.setItem("token", response.token);
     },(error: any) => {
       console.error('Errore POST:', error)
     });

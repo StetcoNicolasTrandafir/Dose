@@ -9,7 +9,18 @@ import { Component, OnInit,Input } from '@angular/core';
 export class CoffeTypeCardComponent  implements OnInit {
 
   constructor() { }
-  @Input() coffee!: { name: string; origin: string; process: string; } ;
+  @Input() coffee!: { 
+    name: string;
+    origin: string; 
+    process: string; 
+    productor:string;
+    harvest_date:string;
+    roasting_day:string;
+    roasting_degree:string,
+    variety:string,
+    region:string,
+    altitude:number
+  };
 
 
   ngOnInit() {}

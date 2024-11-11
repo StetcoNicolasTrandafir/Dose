@@ -32,8 +32,7 @@ const login = async (req, res, next) => {
   try {
     const risultato = await usersService.login(id, pwd, req, res);
     console.log("risultato", risultato);
-    res.send(risultato);
-    next();
+    res.status(200).send(risultato);
   } catch (e) {
     console.log(e.message)
     res.sendStatus(500) && next(error)
@@ -49,7 +48,7 @@ const getUser = async (req, res, next) => {
     let ctrlToken = await controllaToken(req, res);
     let id = ctrlToken.payload._id;
     const risultato = await usersService.getUser(id, req, res);
-    res.send(risultato);
+    res.status(200).send(risultato);
 
     next();
   } catch (e) {
