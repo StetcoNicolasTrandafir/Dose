@@ -1,4 +1,3 @@
-
 SERVER:
 -file configurazione
 -unit test
@@ -25,6 +24,11 @@ più nel particolare (credo che siano anche in ordine di priorità, ma se ne par
 
 NOTE ED IDEE:
 -multilingua?  se impostiamo il client subito per gestire la cosa ci Evita una sbatta quando approdiamo sul mercato globale e siamo pronti per fare I milioni… ma che dico milioni? MILIARDI!
+
+
+
+Priorità: creazione post, e condivisione delle valutazioni del caffè
+
 
 
 dal Guerriero pizda mati è tutto.

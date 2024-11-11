@@ -43,6 +43,7 @@ function createMockReqRes() {
     return [req, req_err, res];
 }
 
+
 describe("CoffeeType API", () => {
 
     let req, req_err, res;
@@ -128,12 +129,16 @@ describe("CoffeeType API", () => {
             //     affectedRows: 1,
             // }});
 
-            expect(res.send).toHaveBeenCalledWith({data:
-                expect.objectContaining({
-                    affectedRows: 1// Verifica solo la presenza della proprietà
-                })
-            });
+            expect(res.send).toHaveBeenCalledWith({data:req.body["id"]})
+        
         });
+
+        it("Should not find the coffe with id=666", async () => {
+            req.body["id"] = 666;
+            await coffee_typeController.updateCoffee(req, res);
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.send).toHaveBeenCalledWith({data:"Coffe type not found"});
+            });
 
         it("should return an error if a parameter is missing", async () => {
             await coffee_typeController.updateCoffee(req_err, res);
@@ -187,6 +192,22 @@ describe("CoffeeType API", () => {
     });
 
     describe("POST /deleteCoffee", () => {
+
+        it("Should not find the coffe with id=666", async () => {
+            req.body["id"] = 666;
+            await coffee_typeController.deleteCoffee(req, res);
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.send).toHaveBeenCalledWith({data:"Coffe type not found"});
+            });
+
+        it("Should not find the coffe with id=666", async () => {
+            req.body["id"] = 666;
+            await coffee_typeController.deleteCoffee(req, res);
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.send).toHaveBeenCalledWith({data:"Coffe type not found"});
+            });
+
+
         it("should return an error if a parameter is missing", async () => {
             await coffee_typeController.deleteCoffee(req_err, res);
             expect(res.status).toHaveBeenCalledWith(400);

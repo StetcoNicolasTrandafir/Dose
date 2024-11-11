@@ -12,7 +12,14 @@ CREATE TABLE preparation (
   creation_date DATE DEFAULT CURRENT_DATE,
   FOREIGN KEY (coffee_type_id) REFERENCES coffee_type(id),
   FOREIGN KEY (owner_id) REFERENCES users(id)
+  --reference to pour 
 ) ENGINE=InnoDB;
+
+
+--blooming e pouring
+--first pour:ml
+--other pours: time, ml
+--in case of espresso: -preinfusion:time, -extraction: first drop, quantità desiderata, total time
 
 
 CREATE TABLE users (
@@ -41,3 +48,12 @@ CREATE TABLE coffee_type (
   roaster VARCHAR(255),
   harvest_date DATE
 ) ENGINE=InnoDB;
+
+
+--valutations:
+--hot, cold, warm==> evoluzione
+--smell:1-5, notes
+--color: 1-5, notes
+--taste: 1-5, notes
+--per ogni campo della ruota un numerico
+--generic notes
