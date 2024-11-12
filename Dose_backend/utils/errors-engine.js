@@ -3,16 +3,24 @@ let ERRORS= require('errors');
 
 //Gestione errori del DATABASE
 ERRORS.create({
+  code: 600,
+  name: 'DB_CONNECTION',
+  defaultMessage: 'An error occured when connecting to database'
+});
+
+ERRORS.create({
   code: 601,
   name: 'QUERY_EXECUTE',
   defaultMessage: 'An error occured during the query execution'
 });
 
 ERRORS.create({
-  code: 600,
-  name: 'DB_CONNECTION',
-  defaultMessage: 'An error occured when connecting to database'
+  code: 606,
+  name: 'DATA_ALREADY_IN_THE_DB',
+  defaultMessage: "The credentials you're trying to insert into the db are already there"
 });
+
+
 
 ERRORS.create({
   name: 'MISSING_PARAMETER',

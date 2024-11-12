@@ -29,14 +29,44 @@ const login = async (req, res, next) => {
 
   const id = req.body["mail"];
   const pwd = req.body["password"];
+
+  if(!id||!pwd)
+    return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
+ 
   try {
     const risultato = await usersService.login(id, pwd, req, res);
-    console.log("risultato", risultato);
+    // console.log("risultato", risultato);
     res.status(200).send(risultato);
   } catch (e) {
     console.log(e.message)
     res.sendStatus(500) && next(error)
   }
+}
+
+const signUp=async(req, res, next)=>{
+  const mail = req.body["mail"];
+  const pwd = req.body["password"];
+  const nickname=req.body["username"] 
+  const birthDate=req.body["birthDate"]
+  const name=req.body["name"]
+  const surname=req.body["surname"]
+
+  if(!mail||!pwd||!nickname||!birthDate||!name||!surname)
+    return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
+
+  try {
+    if(await usersService.checkCredentials(req, res, mail, nickname))
+    {
+      const ris= await userService.signUp(req, res);
+      console.log("Result: ", ris);
+      res.status(200).send(ris);
+    }
+    
+  } catch (e) {
+    console.log(e.message)
+    res.sendStatus(500) && next(error)
+  }
+  
 }
 
 
@@ -138,5 +168,6 @@ module.exports = {
   login,
   getUser,
   controlloToken,
+  signUp,
   prova,
 }

@@ -1,40 +1,28 @@
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
+const saltRounds = 12;
 
-const algorithm = 'aes-256-ctr';
-const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
-const iv = crypto.randomBytes(16);
-
-const encrypt = (text) => {
-
-    const cipher =  crypto.createCipheriv(algorithm, secretKey, iv);
-
-    const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
-
-    return {
-        iv: iv.toString('hex'),
-        content: encrypted.toString('hex')
-    };
-};
-
-const decrypt = (encrypted) => {
-
-    const decipher = crypto.createDecipheriv(algorithm, secretKey, Buffer.from(encrypted.iv, 'hex'));
-
-    const decrpyted = Buffer.concat([decipher.update(Buffer.from(encrypted.content, 'hex')), decipher.final()]);
-
-    return decrpyted.toString();
-};
-
-
-function error(req, res, err) {
-    res.status(err.code).send(err.message);
+const encrypt=async(plaintext)=> {
+    try {
+        const hash = await bcrypt.hash(plaintext, saltRounds);
+        return hash;
+    } catch (error) {
+        throw new Error('Errore durante l\'hashing della password');
+    }
 }
 
+const match =async (plaintext, hash)=>{
+    try {
+        console.log(plaintext, hash)
+        const match=await bcrypt.compare(plaintext, hash);
+        return match;
+    } catch (error) {
+        console.log(error.message)
+        throw new Error('Errore durante la verifica della password');
+    }
+}
 
 module.exports = {
     encrypt,
-    decrypt
+    match
 };
-
-

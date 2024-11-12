@@ -2,11 +2,9 @@ const {
   coffee_typeService
 } = require("../services")
 
-const jwt = require("jsonwebtoken");
-const fs = require("fs");
 // const privateKey = fs.readFileSync("keys/private.key", "utf8");
 
-const {errors, token}= require("../utils");
+const {errors, token, crypto}= require("../utils");
 
 
 const addCoffee = async (req, res, next) => {
@@ -49,10 +47,9 @@ const getById = async (req, res, next) => {
     const risultato = await coffee_typeService.getCoffeeById(req, res,id);
     console.log(risultato);
     res.status(200).send(risultato);
-    // next();
   } catch (e) {
-    // console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
-    // console.log(e)
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE:")
+    console.log(e.message)
     errors.sendError(req, res, e)
   }
 }
@@ -71,7 +68,8 @@ const deleteCoffee = async (req, res, next) => {
     console.log(risultato)
     res.send(risultato);
   } catch (e) {
-    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE:")
+    console.log(e.message)
     errors.sendError(req, res, e)
   }
 }
@@ -81,7 +79,8 @@ const getAllCoffees=async(req, res, next)=>{
     const risultato = await coffee_typeService.getAllCoffees(req, res);
     res.send(risultato);
   } catch (e) {
-    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE:")
+    console.log(e.message)    
     errors.sendError(req, res, e)
   }
 }
@@ -137,12 +136,22 @@ const getMyCoffees= async(req, res, next)=>{
 
 const prova= async(req, res, next)=> {
   
-  if(req.body["provaErrore"])
-    return errors.sendCustomError(req, res, new errors.ERRORS.ERRORE_DI_PROVA({}));
+  if(req.body["provaErrore"])    return errors.sendCustomError(req, res, new errors.ERRORS.ERRORE_DI_PROVA({}));
+
+
+  let hash=await crypto.encrypt(req.body["pwd"])
+  let hash2=await crypto.encrypt(req.body["pwd"])
+  console.log(hash==hash2)
+  let matchTrue=await crypto.match(req.body["pwd"], hash)
+  let matchFalse=await crypto.match(req.body["pwdSbagliata"], hash)
+
+  console.log("True:"+matchTrue)
+  console.log("False:"+matchFalse)
+
 
   const ris= await coffee_typeService.prova(req, res)
   res.status(200)
-  res.send(ris)
+  res.send({data:hash})
 }
 
 
