@@ -1,22 +1,10 @@
 const {
   usersService
 } = require("../services")
-const jwt = require("jsonwebtoken");
 
-const ERRORS = require('errors');
-
+const{errors}=require("../utils")
 //Gestione errori del TOKEN
-ERRORS.create({
-  code: 603,
-  name: 'TOKEN_EXPIRED',
-  defaultMessage: 'Token is expired'
-});
 
-ERRORS.create({
-  code: 604,
-  name: 'TOKEN_DOESNT_EXIST',
-  defaultMessage: 'Token doesnt exist'
-});
 
 
 const prova = async (req, res, next) => {
@@ -38,8 +26,9 @@ const login = async (req, res, next) => {
     // console.log("risultato", risultato);
     res.status(200).send(risultato);
   } catch (e) {
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
     console.log(e.message)
-    res.sendStatus(500) && next(error)
+    errors.sendError(req, res, e)
   }
 }
 
@@ -57,14 +46,18 @@ const signUp=async(req, res, next)=>{
   try {
     if(await usersService.checkCredentials(req, res, mail, nickname))
     {
-      const ris= await userService.signUp(req, res);
+      const ris= await usersService.signUp(req, res);
       console.log("Result: ", ris);
       res.status(200).send(ris);
+    }else
+    {
+      errors.ERRORS.sendCustomError(req, res, error.ERRORS.DATA_ALREADY_IN_THE_DB({}))
     }
     
   } catch (e) {
+    console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
     console.log(e.message)
-    res.sendStatus(500) && next(error)
+    errors.sendError(req, res, e)
   }
   
 }
@@ -103,66 +96,9 @@ const controlloToken = async (req, res, next) => {
       token: token
     });
   } else {
-    error(req, res, new ERRORS.TOKEN_DOESNT_EXIST({}));
+    errors.sendCustomError(req, res, new errors.ERRORS.TOKEN_DOESNT_EXIST({}));
   }
 }
-
-
-// async function controllaToken(req, res) {
-//   let ctrlToken = {
-//     allow: false,
-//     payload: {}
-//   };
-
-//   // lettura token
-//   if (req.headers["token"] == undefined) {
-//     error(req, res, new ERRORS.TOKEN_DOESNT_EXIST({}));
-//   } else {
-//     let token = req.headers["token"].split(' ')[1];
-    
-//     //console.log(token + " - " + typeof (token));
-
-//     if (token != "undefined" && token != "null") {
-
-//       let result;
-//       try {
-//         result = await jwt.verify(token, privateKey);
-//       } catch (ex) {
-//         console.log(ex);
-//       }
-
-//       ctrlToken.allow = true;
-//       if (result) {
-//         //ctrlToken.allow=true;
-//         ctrlToken.payload = result;
-//       } else {
-//         ctrlToken.payload = {
-//           "err_iat": true,
-//           "message": "Token scaduto"
-//         };
-//         error(req, res, new ERRORS.TOKEN_EXPIRED({}));
-//       }
-//     }
-//   }
-//   return ctrlToken;
-// }
-
-// function createToken(obj) {
-//   let token = jwt.sign({
-//       '_id': obj._id,
-//       'user': obj.user,
-//       'iat': Math.floor(Date.now() / 1000),
-//       'exp': Math.floor(Date.now() / 1000 + usersService.TIMEOUT)
-//     },
-//     privateKey
-//   );
-//   return token;
-// }
-
-function error(req, res, err) {
-  res.status(err.code).send(err.message);
-}
-
 
 module.exports = {
   login,

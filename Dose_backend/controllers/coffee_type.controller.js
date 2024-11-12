@@ -123,6 +123,7 @@ const updateCoffee = async(req, res, next)=>{
 const getMyCoffees= async(req, res, next)=>{
   const ctrlToken= await token.controllaToken(req, res);
   let userId = ctrlToken.payload._id;
+  // console.log(userId)
 
   try{
     const ris= await coffee_typeService.getMyCoffees(req, res, userId);

@@ -56,6 +56,7 @@ async function controllaToken(req, res) {
 }
 
 function createToken(obj) {
+  console.log(obj._id)
   let token = jwt.sign({
       '_id': obj._id,
       'user': obj.user,

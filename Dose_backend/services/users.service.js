@@ -49,7 +49,7 @@ const login = async (mail, password, req, res) => {
 
 
 const checkCredentials=async(req, res, mail, nickname)=>{
-    let queryString= "SELECT id FROM users WHERE mail=?"
+    let queryString= "SELECT id FROM users WHERE email=?"
     let ris= db.execute(queryString, mail,req, res);
     if(ris.length>0){
         return false;
@@ -85,7 +85,7 @@ const signUp=async (req, res)=>{
 
     return {
         "token": newToken,
-        "data": result
+        "data": ris
     };
 
 }

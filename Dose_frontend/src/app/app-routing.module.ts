@@ -40,7 +40,12 @@ const routes: Routes = [
   {
     path: 'coffee-types',
     loadChildren: () => import('./pages/coffee-types/coffee-types.module').then( m => m.CoffeeTypesPageModule)
-  }
+  },
+  {
+    path: 'sign-up',
+    loadChildren: () => import('./pages/sign-up/sign-up.module').then( m => m.SignUpPageModule)
+  },
+  
 ];
 
 @NgModule({

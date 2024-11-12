@@ -26,6 +26,9 @@ export class HttpService {
       'token': 'Bearer ' + localStorage.getItem('token')
     });
 
+    if(endpoint=="/coffee_types/getMyCoffees")
+      console.log(localStorage.getItem('token'));
+      
     return this.http.post(this.URL_SERVICE+endpoint, data, { headers: headers });
   }
 }
