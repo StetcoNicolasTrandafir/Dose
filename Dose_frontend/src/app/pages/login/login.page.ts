@@ -10,8 +10,8 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class LoginPage {
   loginData = {
-    username: '',
-    password: ''
+    username: 'GinoPino',
+    password: 'gino'
   };
 
   constructor(private router: Router, private http:HttpService) {}
@@ -23,6 +23,7 @@ export class LoginPage {
     .subscribe((response: any) => {
       if(!response.error){
         localStorage.setItem("token", response.token);
+        console.log(localStorage.getItem("token"))
         this.router.navigate(['/home']);
 
       }else{

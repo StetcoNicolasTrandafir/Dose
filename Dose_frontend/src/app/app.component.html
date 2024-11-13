@@ -22,6 +22,10 @@
             <ion-label>{{ label }}</ion-label>
           </ion-item>
         </ion-list>
+        <ion-item lines="none" color="danger" (click)="logout()" style="margin-top: auto;color: var(--ion-color-danger);">
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
+          <ion-label>Logout</ion-label>
+        </ion-item>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

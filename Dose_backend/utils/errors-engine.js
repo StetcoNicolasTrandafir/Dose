@@ -16,10 +16,15 @@ ERRORS.create({
 
 ERRORS.create({
   code: 606,
-  name: 'DATA_ALREADY_IN_THE_DB',
-  defaultMessage: "The credentials you're trying to insert into the db are already there"
+  name: 'MAIL_ALREADY_IN_THE_DB',
+  defaultMessage: "The email you're trying to insert into the db are already there"
 });
 
+ERRORS.create({
+  code: 607,
+  name: 'NICKNAME_ALREADY_IN_THE_DB',
+  defaultMessage: "The nickname you're trying to insert into the db are already there"
+});
 
 
 ERRORS.create({

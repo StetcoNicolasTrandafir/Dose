@@ -5,15 +5,16 @@ import { HttpService } from 'src/app/services/http.service';
   templateUrl: './coffee-types.page.html',
   styleUrls: ['./coffee-types.page.scss'],
 })
-export class CoffeeTypesPage implements OnInit {
+export class CoffeeTypesPage implements OnInit  {
 
   constructor(private http: HttpService) { }
+  ngOnInit(): void {
+  //  console.log("pd");
+  }
   public coffeeTypes:any  =[]
   
-  ngOnInit() {
-
-    let token:string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsInVzZXIiOiJHaW5vUGlubyIsImlhdCI6MTczMTM1MzE2OSwiZXhwIjoxNzQxMzUzMTY4fQ.E8Rhlk4ef84LYAlNjE8NFfke1UsmDsvhDT4x0aFBHEs";
-    localStorage.setItem("token", token);
+  ionViewWillEnter() {
+    console.log("eeeeeeeee");
     
     this.http.get('coffee_type/getMyCoffees', { })
     .subscribe((response: any) => {

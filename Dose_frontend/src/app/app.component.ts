@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -11,5 +12,10 @@ export class AppComponent {
     { title: 'Agenda', url: '/coffee-types', icon: 'heart' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  constructor(private router:Router) {}
+
+  logout(){
+    localStorage.setItem("token", "")
+    this.router.navigate(['/login']);
+  }
 }

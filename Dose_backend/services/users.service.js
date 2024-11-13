@@ -50,16 +50,17 @@ const login = async (mail, password, req, res) => {
 
 const checkCredentials=async(req, res, mail, nickname)=>{
     let queryString= "SELECT id FROM users WHERE email=?"
-    let ris= db.execute(queryString, mail,req, res);
+    let ris= await db.execute(queryString, mail,req, res);
     if(ris.length>0){
-        return false;
+        return {data:"Email",free:false};
     }else{
         let queryString= "SELECT id FROM users WHERE nickname=?"
-        let ris= db.execute(queryString, nickname,req, res);
+        let ris= await db.execute(queryString, nickname,req, res);
+        console.log(ris)
         if(ris.length>0)
-            return false;
+            return {data:"Nickname", free:false}
     }
-    return true;
+    return {free:true};
 }
 
 const signUp=async (req, res)=>{
@@ -76,8 +77,8 @@ const signUp=async (req, res)=>{
 
     const queryString= "INSERT INTO users(position, picture, password, birth_date, email, nickname, surname, name)VALUES(?,?,?,?,?,?,?,?)"
 
-    const ris=db.execute(queryString, [position,picture,hash,birthDate, mail,nickname, surname, name])
-    
+    const ris=await db.execute(queryString, [position,picture,hash,birthDate, mail,nickname, surname, name])
+
     let newToken = token.createToken({
         "_id": ris.insertId,
         "user": nickname

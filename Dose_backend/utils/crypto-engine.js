@@ -13,7 +13,6 @@ const encrypt=async(plaintext)=> {
 
 const match =async (plaintext, hash)=>{
     try {
-        console.log(plaintext, hash)
         const match=await bcrypt.compare(plaintext, hash);
         return match;
     } catch (error) {

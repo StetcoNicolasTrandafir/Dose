@@ -44,16 +44,19 @@ const signUp=async(req, res, next)=>{
     return errors.sendCustomError(req, res, new errors.ERRORS.MISSING_PARAMETER({}));
 
   try {
-    if(await usersService.checkCredentials(req, res, mail, nickname))
+    const check=await usersService.checkCredentials(req, res, mail, nickname);
+    if(check.free)
     {
       const ris= await usersService.signUp(req, res);
-      console.log("Result: ", ris);
       res.status(200).send(ris);
     }else
     {
-      errors.ERRORS.sendCustomError(req, res, error.ERRORS.DATA_ALREADY_IN_THE_DB({}))
+      if(check.data=="Email")
+        return errors.sendCustomError(req, res, new errors.ERRORS.MAIL_ALREADY_IN_THE_DB({}));
+      else
+        return errors.sendCustomError(req, res, new errors.ERRORS.NICKNAME_ALREADY_IN_THE_DB({}));
+ 
     }
-    
   } catch (e) {
     console.log("ERRORE INASPETTATO NON CUSTOM DA GESTIRE")
     console.log(e.message)

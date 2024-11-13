@@ -38,7 +38,7 @@ export class SignupPage {
       return `${coordinates.coords.latitude};${coordinates.coords.longitude}`;
     } catch (error:any) {
       if (error.code === 1) {
-        console.error("Geolocation Error: Permission denied");
+        console.log("Geolocation Error: Permission denied");
         return "";
       } else {
         console.error("Geolocation Error:", error.message);
@@ -61,39 +61,55 @@ export class SignupPage {
     return true;
   }
 
+  goToLogin(){
+    this.router.navigate(['/login']);
+
+  }
+
   // Submit handler
   async onSubmit() {
     const passwordsValid = await this.validatePasswords();
     if (!passwordsValid) return;
 
     this.signUpData.position = (await this.getPosition()) || "";
-    // Process the sign-up data (e.g., send it to your backend)
-    console.log('Sign-Up Data:', this.signUpData);
-
 
     this.http.post('user/signUp', { 
-      mail:this.signUpData.email,
+      mail: this.signUpData.email,
       username: this.signUpData.nickname,
-      birthDate:this.signUpData.birthDate,
-      name:this.signUpData.name,
-      surname:this.signUpData.surname,
-      position:this.signUpData.position, 
-      password:this.signUpData.password })
-    .subscribe((response: any) => {
-      if(!response.error){
-        // console.log(response)
-        localStorage.setItem("token", response.token);
-        console.log(localStorage.getItem("token"));
-        
-        
-        this.router.navigate(['/home']);
-      }else{
-        console.log("Error: ",response.error);
+      birthDate: this.signUpData.birthDate,
+      name: this.signUpData.name,
+      surname: this.signUpData.surname,
+      position: this.signUpData.position, 
+      password: this.signUpData.password 
+    })
+    .subscribe({
+      next: (response: any) => {
+        console.log("eeeeeeeeeeeeeeeeeeeeee", response);
+        if (!response.error) {
+          console.log(response);
+          localStorage.setItem("token", response.token);
+          console.log(localStorage.getItem("token"));
+          this.router.navigate(['/home']);
+        } else {
+          console.log("Error: ", response.error);
+          if (response.error.split(' ')[0] === "Nickname") {
+            console.log("Nickname già presente");
+          } else {
+            console.log("Email già presente");
+          }
+        }
+      },
+      error: (error: any) => {
+        // console.error('Errore POST:', error);
+        if(error.status==606)
+          console.log("EMAIL GIA PRESENTE");
+        if(error.status==607)
+          console.log("NICKNAME GIA USATO");
+                    
+      },
+      complete: () => {
+        console.info('Request complete');
       }
-
-    },(error: any) => {
-      console.error('Errore POST:', error)
     });
   }
-  }
-
+}
